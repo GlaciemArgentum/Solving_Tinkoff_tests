@@ -19,17 +19,13 @@ func CheckWord(color string) int {
 }
 
 func main() {
-	var n, countOfBadWords int
+	var n int
+	var countOfBadWords int
 	var s, b string
-	//sR := make([]rune, 0, 32)
 	colors := make([]string, 0, 2*n)
 
 	fmt.Scan(&n)
 	in := bufio.NewReader(os.Stdin)
-	/*sR = fmt.Scan()
-	scanner :=
-	scanner.Scan()
-	s = scanner.Text()*/
 	s, _ = in.ReadString('\n')
 	b, _ = in.ReadString('\n')
 
@@ -44,5 +40,3 @@ func main() {
 	}
 	fmt.Println(countOfBadWords)
 }
-
-//Algorithms and Data Structures
