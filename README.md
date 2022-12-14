@@ -40,6 +40,7 @@
 | Algorithms and Data Structures|                    |
 | BBBBBBBBBBBYBYYYYBBBBBBBBBВ   |                    |
 
+
 ## 2 задание
 
 ***Ограничение времени***: 1 секунда.  
