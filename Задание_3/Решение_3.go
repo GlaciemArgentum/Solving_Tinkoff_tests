@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// CheckErr проверяет входные данные на ошибку.
 func CheckErr(err error) {
 	if err != nil {
 		panic(err)

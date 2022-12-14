@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// maxXOR возвращает максимальное значение исключающего ИЛИ введённого числа k и каждого элемента list.
 func maxXOR(list map[int]int, k int) int {
 	if len(list) == 0 {
 		return 0
@@ -18,11 +19,14 @@ func maxXOR(list map[int]int, k int) int {
 }
 
 func main() {
-	var n, maxPre int
+	var (
+		n      int // количество запросов.
+		maxPre int // запоминаем предыдущее максимальное значение (см. описание ф-ции maxXOR).
+	)
 	list := make(map[int]int)
 	fmt.Scan(&n)
 
-	var k int
+	var k int // добавочное число.
 	for i := 0; i < n; i++ {
 		fmt.Scan(&k)
 
