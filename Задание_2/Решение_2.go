@@ -54,7 +54,7 @@ func main() {
 
 	variable := [3]int{0, 0, 0}
 
-	// перебор всех возможных вариантов троек значение.
+	// перебор всех возможных вариантов троек значений.
 	for i := 0; i <= absMoney; i++ {
 		for j := 0; j <= absMoney-i; j++ {
 			variable = [3]int{i + base[0], j + base[1], absMoney - i - j + base[2]}
