@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// CheckWord проверяет, является ли данная последовательность цветов некрасивой.
 func CheckWord(color string) int {
 	pre := int32(color[0])
 	for _, i := range color[1:] {
@@ -19,9 +20,12 @@ func CheckWord(color string) int {
 }
 
 func main() {
-	var n int
+	var (
+		n int    // n — колличество букв.
+		s string // s — искомая строка.
+		b string // b — распределение цветов.
+	)
 	var countOfBadWords int
-	var s, b string
 	colors := make([]string, 0, 2*n)
 
 	fmt.Scan(&n)
