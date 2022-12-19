@@ -93,8 +93,9 @@ func (angle *Angle) AngRad() float64 {
 	if angle.point1 == angle.point2 || angle.point3 == angle.point2 {
 		return math.Pi
 	}
-	length := Line{angle.point1, angle.point3}
-	radian := float64(length.Steps()) * math.Pi / float64(numberOfSides)
+
+	steps := Line{angle.point1, angle.point3}
+	radian := float64(steps.Steps()) * math.Pi / float64(numberOfSides)
 	if float64(angle.point3-1) <= float64(numberOfSides)/2 {
 		radian = math.Pi - radian
 	}
@@ -115,8 +116,12 @@ func (triangle *Triangle) Area() float64 {
 	line1 := Line{triangle.point1, triangle.point2}
 	line2 := Line{triangle.point2, triangle.point3}
 	angle := Angle{triangle.point1, triangle.point2, triangle.point3}
-	//fmt.Println(Length(line1.Steps()), Length(line2.Steps()), math.Sin(angle.AngRad()))
 	return (0.5) * Length(line1.Steps()) * Length(line2.Steps()) * math.Sin(angle.AngRad())
+}
+
+// MaxSideOfTriangle выводит максимальную сторону треугольника.
+func (triangle *Triangle) MaxSideOfTriangle() float64 {
+
 }
 
 func IntersectionOfTriangles(tr1, tr2 Triangle) bool {
@@ -150,4 +155,5 @@ var numberOfSides int
 func main() {
 	_, err := fmt.Scan(&numberOfSides)
 	CheckError(err)
+
 }
