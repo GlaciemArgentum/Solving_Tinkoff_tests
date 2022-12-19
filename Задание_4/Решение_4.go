@@ -5,9 +5,11 @@ import (
 	"math"
 )
 
-// integerDivision  — целочисленное деление.
-func integerDivision(a int, b int) int {
-	return (a - a%b) / b
+// CheckError проверяет наличие ошибки.
+func CheckError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 type Line struct {
@@ -20,6 +22,7 @@ func (line *Line) Normalize() {
 	}
 }
 
+// C проверяет, выполняется ли условие a < b < c.
 func C(a, b, c int) bool {
 	if a < b && b < c {
 		return true
@@ -145,21 +148,6 @@ func IntersectionOfTriangles(tr1, tr2 Triangle) bool {
 var numberOfSides int
 
 func main() {
-	/*fmt.Scan(&numberOfSides)
-	//maxCountOfTriangles := integerDivision(numberOfSides, 3)
-	var maxArea float64
-
-	for i := 2; i < numberOfSides; i++ {
-		for j := i + 1; j <= numberOfSides; j++ {
-			triangle := Triangle{1, i, j}
-			area := triangle.Area()
-			if area > maxArea {
-				maxArea = area
-			}
-		}
-	}
-
-	fmt.Printf("%.6f\n", maxArea) */
-
-	fmt.Println(IntersectionOfTriangles(Triangle{6, 2, 3}, Triangle{1, 5, 4}))
+	_, err := fmt.Scan(&numberOfSides)
+	CheckError(err)
 }
