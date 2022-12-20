@@ -160,6 +160,7 @@ func main() {
 	_, err := fmt.Scan(&numberOfSides)
 	CheckError(err)
 
+	// Эта часть кода определяет все возможные конфигурации треугольников, которые можно вписать в данный n-угольника.
 	varOfTriangles := make([]Triangle, 0, numberOfSides-3)
 	for i := 1; i <= numberOfSides; i++ {
 		for j := i; j <= numberOfSides; j++ {
@@ -175,12 +176,14 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(varOfTriangles)
 
-	// maxCountOfTriangles — максимальное количество треугольников, которое может поместиться в n-угольник.
 	maxCountOfTriangles := numberOfSides / 3
-
+	maxArea := 0.0
 	for i := 1; i <= maxCountOfTriangles; i++ {
-
+		for _, tr := range varOfTriangles {
+			if area := tr.Area(); area > maxArea {
+				maxArea = area
+			}
+		}
 	}
 }
