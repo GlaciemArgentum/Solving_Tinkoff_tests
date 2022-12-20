@@ -12,36 +12,16 @@ func CheckError(err error) {
 	}
 }
 
+// C проверяет равенство a >= b >= c.
+func C(a, b, c float64) bool {
+	if a >= b && b >= c {
+		return true
+	}
+	return false
+}
+
 type Line struct {
 	point1, point2 int
-}
-
-func (line *Line) Normalize() {
-	if line.point2 > line.point1 {
-		line.point2, line.point1 = line.point1, line.point2
-	}
-}
-
-// C проверяет, выполняется ли условие a < b < c.
-func C(a, b, c int) bool {
-	if a < b && b < c {
-		return true
-	}
-	return false
-}
-
-// Intersection пересечение двух линий.
-func Intersection(line1, line2 Line) bool {
-	line1.Normalize()
-	line2.Normalize()
-	p11 := line1.point1
-	p12 := line1.point2
-	p21 := line2.point1
-	p22 := line2.point2
-	if (C(p11, p21, p12) && C(p21, p12, p22)) || (C(p11, p22, p12) && C(p21, p11, p22)) {
-		return true
-	}
-	return false
 }
 
 // Steps считает кол-во сторон между точками.
@@ -66,7 +46,7 @@ type Angle struct {
 	point1, point2, point3 int
 }
 
-// AngSorted приводит точки угола в правильный формат.
+// AngSorted приводит точки угла в правильный формат.
 func (angle *Angle) AngSorted() {
 	if !((angle.point1 < angle.point2 && angle.point2 < angle.point3) || (angle.point1 > angle.point3 && angle.point2 < angle.point3) || (angle.point1 < angle.point2 && angle.point1 > angle.point3)) {
 		angle.point1, angle.point3 = angle.point3, angle.point1
@@ -119,34 +99,58 @@ func (triangle *Triangle) Area() float64 {
 	return (0.5) * Length(line1.Steps()) * Length(line2.Steps()) * math.Sin(angle.AngRad())
 }
 
-// MaxSideOfTriangle выводит максимальную сторону треугольника.
-func (triangle *Triangle) MaxSideOfTriangle() float64 {
-
+// Pr переприсваивает значения вершин треугольника.
+func (triangle *Triangle) Pr(_, b, c float64) {
+	triangle.point1, triangle.point2, triangle.point3 = 1, 1+int(c*float64(numberOfSides)/math.Pi), 1+numberOfSides-int(b*float64(numberOfSides)/math.Pi)
 }
 
-func IntersectionOfTriangles(tr1, tr2 Triangle) bool {
-	tr1M := []int{tr1.point1, tr1.point2, tr1.point3}
-	tr2M := []int{tr2.point1, tr2.point2, tr2.point3}
-	for n, i := range tr1M {
-		var i2 int
-		if n == 2 {
-			i2 = tr1M[0]
-		} else {
-			i2 = tr1M[n+1]
-		}
-		for m, j := range tr2M {
-			var j2 int
-			if m == 2 {
-				j2 = tr2M[0]
-			} else {
-				j2 = tr1M[m+1]
-			}
-			if Intersection(Line{i, i2}, Line{j, j2}) || i == j {
-				return true
-			}
+// TriSorted приводит точки угла в правильный формат.
+func (triangle *Triangle) TriSorted() {
+	ang1 := Angle{triangle.point2, triangle.point1, triangle.point3}
+	ang2 := Angle{triangle.point1, triangle.point2, triangle.point3}
+	ang3 := Angle{triangle.point1, triangle.point3, triangle.point2}
+
+	rad1 := ang1.AngRad()
+	rad2 := ang2.AngRad()
+	rad3 := ang3.AngRad()
+
+	switch {
+	case C(rad1, rad2, rad3):
+		triangle.Pr(rad1, rad2, rad3)
+	case C(rad2, rad3, rad1):
+		triangle.Pr(rad2, rad3, rad1)
+	case C(rad3, rad1, rad2):
+		triangle.Pr(rad3, rad1, rad2)
+	case C(rad1, rad3, rad2):
+		triangle.Pr(rad1, rad3, rad2)
+	case C(rad2, rad1, rad3):
+		triangle.Pr(rad2, rad1, rad3)
+	case C(rad3, rad2, rad1):
+		triangle.Pr(rad3, rad2, rad1)
+	}
+}
+
+// CheckTypeOfTriangle проверяет, есть ли данный треугольник в массиве треугольников.
+func (triangle *Triangle) CheckTypeOfTriangle(varOfTriangles []Triangle) bool {
+	for _, i := range varOfTriangles {
+		if *triangle == i {
+			return true
 		}
 	}
 	return false
+}
+
+// IntersectionOfTriangles проверяет, существует ли такое расположение треугольников в многоугольнике, при котором они не пересекаются.
+func IntersectionOfTriangles(trs []Triangle) bool {
+	sum := 0
+	for _, tr := range trs {
+		max := tr.point1
+		sum += numberOfSides - max + 1
+		if sum > numberOfSides {
+			return false
+		}
+	}
+	return true
 }
 
 // numberOfSides — количество сторон правильного n-угольника.
@@ -156,4 +160,27 @@ func main() {
 	_, err := fmt.Scan(&numberOfSides)
 	CheckError(err)
 
+	varOfTriangles := make([]Triangle, 0, numberOfSides-3)
+	for i := 1; i <= numberOfSides; i++ {
+		for j := i; j <= numberOfSides; j++ {
+			for k := j; k <= numberOfSides; k++ {
+				if i == j || i == k || j == k {
+					continue
+				}
+				tr := Triangle{i, j, k}
+				tr.TriSorted()
+				if !tr.CheckTypeOfTriangle(varOfTriangles) {
+					varOfTriangles = append(varOfTriangles, tr)
+				}
+			}
+		}
+	}
+	fmt.Println(varOfTriangles)
+
+	// maxCountOfTriangles — максимальное количество треугольников, которое может поместиться в n-угольник.
+	maxCountOfTriangles := numberOfSides / 3
+
+	for i := 1; i <= maxCountOfTriangles; i++ {
+
+	}
 }
