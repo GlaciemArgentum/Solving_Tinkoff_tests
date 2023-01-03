@@ -169,13 +169,17 @@ func MaxFromI(n int) float64 {
 		if area := AreaOfTriangles(list); IntersectionOfTriangles(list) && area > maxArea {
 			maxArea = area
 		}
-		// Тут нужно сделать нормальное переприсваивание для индексов массива треугольников.
-		/*for i := n - 1; i >= 0; i-- {
-			if list[i] < len(varOfTriangles) {
+		if list[0] == len(varOfTriangles)-1 {
+			break
+		}
+		for i := n - 1; i >= 0; i-- {
+			if list[i] < len(varOfTriangles)-1 {
 				list[i] += 1
-			} else {
-
-			}*/
+				for j := n - 1; j > i; j-- {
+					list[j] = list[i]
+				}
+				break
+			}
 		}
 	}
 
@@ -207,6 +211,7 @@ func main() {
 		}
 	}
 
+	// Эта часть кода считает максимальную площадь с учётом всех условий.
 	maxCountOfTriangles := numberOfSides / 3
 	maxArea := 0.0
 	for i := 1; i <= maxCountOfTriangles; i++ {
