@@ -141,6 +141,7 @@ func (triangle *Triangle) CheckTypeOfTriangle(varOfTriangles []Triangle) bool {
 }
 
 // IntersectionOfTriangles проверяет, существует ли такое расположение треугольников в многоугольнике, при котором они не пересекаются.
+// Работает неправильно, нужно переделать.
 func IntersectionOfTriangles(indexes []int) bool {
 	sum := 0
 	for _, i := range indexes {
