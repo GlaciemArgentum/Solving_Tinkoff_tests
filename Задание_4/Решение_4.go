@@ -104,7 +104,7 @@ func (triangle *Triangle) Pr(_, b, c float64) {
 	triangle.point1, triangle.point2, triangle.point3 = 1, 1+int(c*float64(numberOfSides)/math.Pi), 1+numberOfSides-int(b*float64(numberOfSides)/math.Pi)
 }
 
-// TriSorted приводит точки угла в правильный формат.
+// TriSorted приводит точки треугольника в правильный формат.
 func (triangle *Triangle) TriSorted() {
 	ang1 := Angle{triangle.point2, triangle.point1, triangle.point3}
 	ang2 := Angle{triangle.point1, triangle.point2, triangle.point3}
@@ -162,6 +162,7 @@ func AreaOfTriangles(indexes []int) float64 {
 	return sum
 }
 
+// MaxFromI считает максимальную сумму площадей I треугольников в данном n-угольнике.
 func MaxFromI(n int) float64 {
 	maxArea := 0.0
 	list := make([]int, n, n)
@@ -194,7 +195,7 @@ func main() {
 	_, err := fmt.Scan(&numberOfSides)
 	CheckError(err)
 
-	// Эта часть кода определяет все возможные конфигурации треугольников, которые можно вписать в данный n-угольника.
+	// Эта часть кода определяет все возможные конфигурации треугольников, которые можно вписать в данный n-угольник.
 	varOfTriangles = make([]Triangle, 0, numberOfSides-3)
 	for i := 1; i <= numberOfSides; i++ {
 		for j := i; j <= numberOfSides; j++ {
@@ -215,12 +216,10 @@ func main() {
 	maxCountOfTriangles := numberOfSides / 3
 	maxArea := 0.0
 	for i := 1; i <= maxCountOfTriangles; i++ {
-		max := MaxFromI(i)
-		if max > maxArea {
+		if max := MaxFromI(i); max > maxArea {
 			maxArea = max
 		}
 	}
 
 	fmt.Printf("%.6f\n", maxArea)
-	//fmt.Printf("%.6f\n", 3*math.Sin(math.Pi/3)-3/2*math.Sin(2*math.Pi/3))
 }
