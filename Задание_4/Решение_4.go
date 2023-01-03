@@ -169,7 +169,7 @@ func MaxFromI(n int) float64 {
 		if area := AreaOfTriangles(list); IntersectionOfTriangles(list) && area > maxArea {
 			maxArea = area
 		}
-		// Тут надо сделать нормальное переприсваивание для индексов массива треугольников.
+		// Тут нужно сделать нормальное переприсваивание для индексов массива треугольников.
 		/*for i := n - 1; i >= 0; i-- {
 			if list[i] < len(varOfTriangles) {
 				list[i] += 1
