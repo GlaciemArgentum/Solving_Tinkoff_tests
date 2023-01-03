@@ -141,10 +141,10 @@ func (triangle *Triangle) CheckTypeOfTriangle(varOfTriangles []Triangle) bool {
 }
 
 // IntersectionOfTriangles проверяет, существует ли такое расположение треугольников в многоугольнике, при котором они не пересекаются.
-func IntersectionOfTriangles(trs []Triangle) bool {
+func IntersectionOfTriangles(indexes []int) bool {
 	sum := 0
-	for _, tr := range trs {
-		max := tr.point1
+	for _, i := range indexes {
+		max := varOfTriangles[i].point1
 		sum += numberOfSides - max + 1
 		if sum > numberOfSides {
 			return false
@@ -153,15 +153,45 @@ func IntersectionOfTriangles(trs []Triangle) bool {
 	return true
 }
 
+// AreaOfTriangles считает сумму площадей массива треугольников.
+func AreaOfTriangles(indexes []int) float64 {
+	sum := 0.0
+	for _, i := range indexes {
+		sum += varOfTriangles[i].Area()
+	}
+	return sum
+}
+
+func MaxFromI(n int) float64 {
+	maxArea := 0.0
+	list := make([]int, n, n)
+	for {
+		if area := AreaOfTriangles(list); IntersectionOfTriangles(list) && area > maxArea {
+			maxArea = area
+		}
+		// Тут надо сделать нормальное переприсваивание для индексов массива треугольников.
+		/*for i := n - 1; i >= 0; i-- {
+			if list[i] < len(varOfTriangles) {
+				list[i] += 1
+			} else {
+
+			}*/
+		}
+	}
+
+	return maxArea
+}
+
 // numberOfSides — количество сторон правильного n-угольника.
 var numberOfSides int
+var varOfTriangles []Triangle
 
 func main() {
 	_, err := fmt.Scan(&numberOfSides)
 	CheckError(err)
 
 	// Эта часть кода определяет все возможные конфигурации треугольников, которые можно вписать в данный n-угольника.
-	varOfTriangles := make([]Triangle, 0, numberOfSides-3)
+	varOfTriangles = make([]Triangle, 0, numberOfSides-3)
 	for i := 1; i <= numberOfSides; i++ {
 		for j := i; j <= numberOfSides; j++ {
 			for k := j; k <= numberOfSides; k++ {
@@ -180,10 +210,12 @@ func main() {
 	maxCountOfTriangles := numberOfSides / 3
 	maxArea := 0.0
 	for i := 1; i <= maxCountOfTriangles; i++ {
-		for _, tr := range varOfTriangles {
-			if area := tr.Area(); area > maxArea {
-				maxArea = area
-			}
+		max := MaxFromI(i)
+		if max > maxArea {
+			maxArea = max
 		}
 	}
+
+	fmt.Printf("%.6f\n", maxArea)
+	fmt.Printf("%.6f\n", 3*math.Sin(math.Pi/3)-3/2*math.Sin(2*math.Pi/3))
 }
