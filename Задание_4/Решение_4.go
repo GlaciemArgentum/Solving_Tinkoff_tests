@@ -217,5 +217,5 @@ func main() {
 	}
 
 	fmt.Printf("%.6f\n", maxArea)
-	fmt.Printf("%.6f\n", 3*math.Sin(math.Pi/3)-3/2*math.Sin(2*math.Pi/3))
+	//fmt.Printf("%.6f\n", 3*math.Sin(math.Pi/3)-3/2*math.Sin(2*math.Pi/3))
 }
